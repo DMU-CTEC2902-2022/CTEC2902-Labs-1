@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using log4net;
 
 namespace ErrorProneWebsite.Models
 {
     public class FileManager
     {
+        private readonly ILog logger = LogManager.GetLogger(typeof(FileManager).Name);
         private string _contentFilePath;
 
         public FileManager(string contentFilePath)
@@ -107,14 +109,16 @@ namespace ErrorProneWebsite.Models
                 using (StreamReader streamReader = new StreamReader(_contentFilePath))
                 {
                     contentMessage = streamReader.ReadToEnd();
+                    logger.Info("Content read successfully");
                 }
             }
             catch (FileNotFoundException fnfEx)
             {
                 contentMessage = String.Format("{0}{1}{2}",
-                           "Oops! The content could not be found at the location specified.",
-                             Environment.NewLine,
-                             fnfEx.Message);
+                "Oops! The content could not be found at the location specified.",
+                Environment.NewLine,
+                 fnfEx.Message);
+                logger.Error("The content file was not found");
             }
             catch (Exception ex)
             {

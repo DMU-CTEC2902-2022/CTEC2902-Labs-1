@@ -36,6 +36,7 @@ namespace ErrorProneWebsite.Tests
             FileManager fileManager = new
             FileManager(@"C:\MissingFileThereIsNoFileHere.txt");
             Assert.IsTrue(fileManager.GetEvenMoreContent().Contains("This line won't execute as the exception will be thrown before it's hit"));
-        }
+        }
+
     }
 }
